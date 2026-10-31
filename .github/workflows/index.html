@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agenda ATA</title>
+<meta name="theme-color" content="#7c5cff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Agenda ATA">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<style>
+:root{--gr:linear-gradient(135deg,#7c5cff,#ff7ab8);--bg:#fff7f0;--card:#fff;--tx:#2a2140;--mu:#7a7190;--pr:#7c5cff;--ok:#16a870;--ko:#f0556b;--bl:#3b8cf0;--bd:#f1e6e0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10141b;--card:#1a212c;--tx:#e8ecf3;--mu:#98a2b3;--pr:#6b95ff;--ok:#43c47a;--ko:#f06b6b;--bl:#5aa0f5;--bd:#2a3342}}
+:root[data-theme="dark"]{--bg:#10141b;--card:#1a212c;--tx:#e8ecf3;--mu:#98a2b3;--pr:#6b95ff;--ok:#43c47a;--ko:#f06b6b;--bl:#5aa0f5;--bd:#2a3342}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:76px}
+main{max-width:560px;margin:0 auto;padding:14px}
+h1{font-size:22px;margin:4px 0 12px}h2{font-size:16px;margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:16px;margin-bottom:12px;box-shadow:0 4px 14px #7c5cff12}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.big{font-size:26px;font-weight:700}.mu{color:var(--mu);font-size:13px}
+.ok{color:var(--ok)}.ko{color:var(--ko)}.bl{color:var(--bl)}
+button,select,input{font:inherit;color:var(--tx)}
+button{background:var(--gr);color:#fff;border:0;border-radius:16px;padding:12px 14px;font-weight:700;width:100%}
+button.sec{background:transparent;color:var(--pr);border:1px solid var(--bd)}
+button.sm{width:auto;padding:6px 10px}
+input,select{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:10px;margin:4px 0 10px}
+label{font-size:13px;color:var(--mu)}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--bd);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{background:none;color:var(--mu);border-radius:0;padding:10px 2px;font-size:12px;font-weight:500}
+nav button.on{color:var(--pr);font-weight:700}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal .h{text-align:center;font-size:12px;color:var(--mu)}
+.d{aspect-ratio:1;border-radius:10px;border:1px solid var(--bd);background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:14px;padding:0;color:var(--tx);font-weight:500;width:100%}
+.d small{font-size:9px}.d.g{background:color-mix(in srgb,var(--ok) 25%,transparent)}.d.r{background:color-mix(in srgb,var(--ko) 25%,transparent)}.d.b{background:color-mix(in srgb,var(--bl) 25%,transparent)}.d.t{outline:2px solid var(--pr)}
+.bar{height:10px;background:var(--bg);border-radius:6px;overflow:hidden;border:1px solid var(--bd)}.bar i{display:block;height:100%;background:var(--pr)}
+.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:flex-end;z-index:20}
+.modal>div{background:var(--card);width:100%;max-width:560px;margin:0 auto;border-radius:18px 18px 0 0;padding:16px;max-height:88%;overflow:auto;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+.pr{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
+.sc{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:5px 6px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
+textarea{width:100%;height:110px;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:8px;font:12px monospace}
+body{background:linear-gradient(180deg,color-mix(in srgb,#ff7ab8 22%,transparent),transparent 260px),var(--bg);font-family:ui-rounded,"Nunito","Segoe UI",system-ui,sans-serif}
+h1{font-weight:800}
+.hero{display:flex;gap:14px;align-items:center;background:var(--gr);color:#fff;border-radius:26px;padding:18px;margin-bottom:14px;box-shadow:0 10px 24px #7c5cff44}
+.hero .em{font-size:46px;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-6deg)}}
+.hi{font-size:21px;font-weight:800}.mu2{opacity:.94;font-size:14px}
+.cta{padding:17px;font-size:18px;border-radius:22px;box-shadow:0 6px 16px #7c5cff55}
+.ring{width:150px;height:150px;border-radius:50%;margin:6px auto 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(closest-side,var(--card) 76%,transparent 78%),conic-gradient(#7c5cff calc(var(--p)*1%),var(--bg) 0)}
+.ring b{font-size:36px}.ring small{color:var(--mu)}
+nav{border-radius:24px 24px 0 0;box-shadow:0 -6px 20px #7c5cff18}
+nav button span{display:block;font-size:22px;transition:transform .2s}nav button.on span{transform:scale(1.25)}
+.d{border-radius:14px}.d.t{outline:3px solid #ff7ab8}.d.f{background:#e11d2e;border-color:#e11d2e;color:#fff;font-weight:700}.d.f small{color:#fff}.d.b{background:color-mix(in srgb,var(--c,#3b8cf0) 32%,transparent)}.d.f{background:#e11d2e}.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:3px 9px}.chip i{width:10px;height:10px;border-radius:50%;display:inline-block}.ti{display:flex;align-items:center;gap:10px}.ti svg{color:var(--pr);width:28px;height:28px}nav button svg{display:block;margin:0 auto 2px}
+@keyframes fin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+main.anim>*{animation:fin .3s ease both}
+main.anim>*:nth-child(2){animation-delay:.04s}main.anim>*:nth-child(3){animation-delay:.08s}main.anim>*:nth-child(4){animation-delay:.12s}
+@keyframes ringin{from{stroke-dasharray:0 400}}
+.rg{animation:ringin .9s ease-out}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}
+nav button.on svg{animation:pop .3s ease}
+@media (prefers-reduced-motion:reduce){main.anim>*,.rg,nav button.on svg{animation:none}}
+#inst{position:fixed;left:10px;right:10px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px;box-shadow:0 8px 24px #0003;font-size:13px;line-height:1.4}#inst button{margin-top:8px}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav id="nav"></nav>
+<script>
+const TIPI={presenza:'Presenza',ferie:'Ferie',fest:'Festività soppressa',permesso:'Permesso retribuito',malattia:'Malattia',recupero:'Recupero (banca ore)',chiusura:'Chiusura prefestiva',fam:'Ferie motivi familiari',p104:'Permesso L. 104',p104h:'Permesso L. 104 a ore',assemblea:'Assemblea sindacale',formazione:'Formazione / corso sicurezza',pbreve:'Permesso breve (da recuperare)',maternita:'Congedo di maternità',paternita:'Congedo di paternità',malfiglio:'Malattia del figlio',adozione:'Congedo adozione / affidamento',riposi:'Riposi giornalieri (allattamento)',lutto:'Permesso per lutto',matrimonio:'Congedo matrimoniale',concorsi:'Permesso concorsi / esami',violenza:'Congedo vittime di violenza',biennale:'Congedo biennale assistenza disabili',aspettativa:'Aspettativa motivi familiari (non retribuita)',cong:'Congedo parentale'};
+const GG=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
+const MESI=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+let P=null,E={},view='home',cur=new Date(),sel=null,note='';
+function ld(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+P=ld('ata_p',null);E=ld('ata_e',{});
+const pad=n=>String(n).padStart(2,'0');
+const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const tm=s=>{const[a,b,c]=s.split(':').map(Number);return a*60+b+(c||0)/60};
+const ns=s=>s&&s.length===5?s+':00':(s||'');
+function fm(m,sh){const s=m<0?'−':(m>0?'+':'');let t=Math.abs(Math.round(m*60));if(sh)t=Math.round(t/60)*60;return s+Math.floor(t/3600)+'h '+pad(Math.floor(t%3600/60))+'m'+(sh?'':' '+pad(t%60)+'s')}
+function fh(m){const t=Math.round(m*60);return Math.floor(t/3600)+'h '+pad(Math.floor(t%3600/60))+'m '+pad(t%60)+'s'}
+function pasqua(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),gi=(h+l-7*m+114)%31+1;return new Date(y,mo-1,gi)}
+function fest(d){const F={'1-1':'Capodanno','6-1':'Epifania','25-4':'Festa della Liberazione','1-5':'Festa del Lavoro','2-6':'Festa della Repubblica','15-8':'Ferragosto','1-11':'Ognissanti','8-12':'Immacolata','25-12':'Natale','26-12':'Santo Stefano'},p=pasqua(d.getFullYear()),l=new Date(d.getFullYear(),p.getMonth(),p.getDate()+1);if(d.getMonth()===l.getMonth()&&d.getDate()===l.getDate())return 'Lunedì dell’Angelo';if(d.getFullYear()>=2026&&d.getDate()===4&&d.getMonth()===9)return 'San Francesco d’Assisi';return F[d.getDate()+'-'+(d.getMonth()+1)]||null}
+function usc(){const t=new Date(),e=E[key(t)]||{},ps=e.p||[],x=exp(t);if(!x||!ps.length||ps[ps.length-1][1]||(e.t&&e.t!=='presenza'))return '';const chiusi=ps.slice(0,-1).reduce((a,q)=>q[1]?a+(tm(q[1])-tm(q[0])):a,0),fine=tm(ps[ps.length-1][0])+x-chiusi,b=sumMonth(t.getFullYear(),t.getMonth())-(bal(t)||0),zero=fine-b;const hm=m=>{m=((m%1440)+1440)%1440;const s=Math.round(m*60);return pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60)};return '<div style="margin-bottom:10px;font-weight:700">🚪 Per completare '+fh(x)+' esci alle '+hm(fine)+'</div>'+(Math.abs(zero-fine)>1?'<div class="mu" style="margin-bottom:10px">⚖️ Per azzerare il saldo del mese esci alle '+hm(zero)+'</div>':'')}
+function anom(y,m){const o=[],t=new Date(),n=new Date(y,m+1,0).getDate(),primo=Object.keys(E).filter(k=>/^\d{4}-/.test(k)).sort()[0];for(let i=1;i<=n;i++){const d=new Date(y,m,i);if(d>t)break;const et=pad(i)+'/'+pad(m+1),e=E[key(d)];if(!e){if(exp(d)&&primo&&key(d)>=primo&&key(d)!==key(t))o.push(et+': nessuna timbratura né assenza');continue}if(e.t==='presenza'||e.t==='p104h'){const p=e.p||[];if(e.t==='presenza'&&!p.length)o.push(et+': presenza senza orari');if(p.some(q=>!q[1])&&key(d)!==key(t))o.push(et+': uscita mancante');if(p.some(q=>q[1]&&tm(q[1])<=tm(q[0])))o.push(et+': uscita precedente all’entrata');if(worked(e)>720)o.push(et+': oltre 12 ore lavorate, controlla')}}return '<div class="card">'+(o.length?'<b>⚠️ Da controllare ('+o.length+')</b>'+o.slice(0,12).map(x=>'<div class="mu">• '+x+'</div>').join(''):'✅ Nessuna anomalia in questo mese')+'</div>'}
+function tipoUi(v){const sh=(id,on)=>{const e=document.getElementById(id);if(e)e.style.display=on?'':'none'};sh('bx_ore',v!=='pers');sh('bx_sett',v==='pieno'||v==='orizz');sh('bx_vert',v==='vert');sh('bx_pers',v==='pers')}
+function exp(d){if(!P)return 0;const w=d.getDay();if(w===0||fest(d))return 0;if(P.tipoOrario==='pers')return Math.round((+(P.oreGiorno||[])[w-1]||0)*60);if(P.tipoOrario==='vert'){const g=P.giorniLav&&P.giorniLav.length?P.giorniLav:[1,2,3,4,5];return g.includes(w)?Math.round(P.ore*60/g.length):0}if(P.giorni==5&&w===6)return 0;return Math.round(P.ore*60/P.giorni)}
+function worked(e){let t=0;(e&&e.p||[]).forEach(x=>{if(x[0]&&x[1]){const v=tm(x[1])-tm(x[0]);if(v>0)t+=v}});return t}
+function bal(d){const e=E[key(d)],x=exp(d);if(!e)return null;
+ if(e.t==='recupero')return -x;
+ if(e.t==='p104h')return e.p&&e.p.length?worked(e)+(e.hr||0)*60-x:null;
+ if(e.t==='assemblea'){if(e.d==='fuori')return e.p&&e.p.length?worked(e)-x:0;return(e.p&&e.p.length)||e.hr?worked(e)+(e.hr||0)*60-x:null}
+ if(e.t==='formazione'||e.t==='riposi')return(e.p&&e.p.length)||e.hr?worked(e)+(e.hr||0)*60-x:null;
+ if(e.t==='pbreve')return e.p&&e.p.length?worked(e)-x:null;
+ if(e.t&&e.t!=='presenza')return 0;
+ if(!e.p||!e.p.length)return null;
+ return worked(e)-x}
+function sumMonth(y,m){let s=0,n=new Date(y,m+1,0).getDate();for(let i=1;i<=n;i++){const b=bal(new Date(y,m,i));if(b!==null)s+=b}return s}
+function sumAll(){let s=0;Object.keys(E).forEach(k=>{const[y,m,d]=k.split('-').map(Number);const b=bal(new Date(y,m-1,d));if(b!==null)s+=b});return s}
+function gg(x){return String(Math.ceil(x-.5-1e-4))}
+function fat(){return(((P.tipoOrario||'pieno')==='pieno'||P.tipoOrario==='orizz')&&P.giorni==5)?1.2:1}
+function prop(){if(P.tipoOrario==='vert')return Math.min(6,Math.max(1,(P.giorniLav&&P.giorniLav.length)||5))/6;if(P.tipoOrario==='pers')return Math.min(6,Math.max(1,(P.oreGiorno||[]).filter(x=>+x>0).length||5))/6;return 1}
+function num(x){return Math.abs(x-Math.round(x))<.001?String(Math.round(x)):x.toFixed(1)}
+function ferieSpet(){const fs=Math.round((P.festSopp!=null&&P.festSopp!==''?+P.festSopp:3)*prop());if(P.ferieMan!=null&&P.ferieMan!==''&&+P.ferieMan>=0)return{ferie:+P.ferieMan,fest:fs};const base=P.anz=='lt3'?30:32;return{ferie:Math.round(base*prop()*mesiServ()/12),fest:fs}}
+function godute(t,y){return Object.keys(E).filter(k=>k.startsWith(y+'-')&&E[k].t===t).length}
+function h(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function setView(v){view=v;render()}
+function render(){
+ applyTema();const a=document.getElementById('app'),n=document.getElementById('nav');
+ if(!P){n.style.display='none';a.innerHTML=prof(true);return}
+ n.style.display='flex';
+ n.innerHTML=[['home',IC.home,'Home'],['ag',IC.cal,'Agenda'],['fe',IC.sun,'Ferie'],['re',IC.doc,'Report'],['pr',IC.gear,'Profilo']].map(x=>`<button class="${view===x[0]?'on':''}" onclick="setView('${x[0]}')"><span>${x[1]}</span>${x[2]}</button>`).join('');
+ a.innerHTML=(!P.guida?guida():{home,ag,fe,re,pr:()=>prof(false),at}[view]());if(view!==window._lv){window._lv=view;a.classList.remove('anim');void a.offsetWidth;a.classList.add('anim');animNum()}
+}
+function home(){
+ const t=new Date(),k=key(t),e=E[k]||{},x=exp(t),w=worked(e),ps=(e.p||[]),open=ps.length&&!ps[ps.length-1][1];
+ return `<div class="hero"><div class="em">${greet()[0]}</div><div><div class="hi">${greet()[1]}, ${h(P.nome)}!</div><div class="mu2">${msg()}</div></div></div>${banner()?`<div class="card" style="border-color:#ff7ab8;font-weight:700">${banner()}</div>`:''}
+ <div class="card"><div class="mu">Oggi · ${GG[t.getDay()]} ${t.getDate()} ${MESI[t.getMonth()]}</div>
+ ${ringHtml(view!==window._lv)}
+ <div class="mu" style="margin-bottom:10px">${ps.map(p=>p[0]+'–'+(p[1]||'…')).join(' · ')||'Nessuna timbratura'}${e.t&&e.t!=='presenza'?' · '+TIPI[e.t]:''}</div>
+ ${usc()}<button class="cta" onclick="timbra()">${open?'👋 Timbra uscita':'☀️ Timbra ingresso'}</button></div>
+ <div class="grid2"><div class="card"><div class="mu">⏱️ Saldo del mese</div>${sv2(sumMonth(t.getFullYear(),t.getMonth()))}</div>
+ <div class="card"><div class="mu">🏦 Banca ore totale</div>${sv2(sumAll())}</div></div>
+ ${atCard()}${credHtml()}<div class="card"><div class="mu">🏖️ Ferie rimanenti ${t.getFullYear()}</div><div class="big">${gg(ferieRim()/fat())} giorni</div>${fat()>1?'<div class="mu">monte ferie: '+num(ferieRim())+' (ogni giorno scala 1,2)</div>':''}</div>`
+}
+function sv2(m){return `<div class="big ${m>0?'ok':m<0?'ko':''}" data-v="${m}">${fm(m)}</div>`}
+function contrUi(v){const e=document.getElementById('bx_det');if(e)e.style.display=v==='det'?'':'none'}
+function dIso(s){return s?new Date(s+'T00:00:00'):null}
+function fineC(){if(P.contratto!=='det'||!P.inizioC)return null;const i=dIso(P.inizioC);if(P.scadC==='altra')return P.fineC?dIso(P.fineC):null;if(P.scadC==='31ago')return new Date(i.getMonth()+1>8?i.getFullYear()+1:i.getFullYear(),7,31);return new Date(i.getMonth()+1>6?i.getFullYear()+1:i.getFullYear(),5,30)}
+function mesiServ(){const man=Math.min(12,Math.max(1,+P.mesiAnno||12)),f=fineC();if(!f)return man;const i=dIso(P.inizioC);if(f<i)return man;const e=new Date(f.getFullYear(),f.getMonth(),f.getDate()+1);let m=(e.getFullYear()-i.getFullYear())*12+(e.getMonth()-i.getMonth()),d=e.getDate()-i.getDate();if(d<0){m--;d+=new Date(e.getFullYear(),e.getMonth(),0).getDate()}if(d>15)m++;return Math.min(12,Math.max(1,m))}
+function fin(y){const f=fineC();return f?[P.inizioC,key(f)]:[y+'-01-01',y+'-12-31']}
+function cf(y){const w=fin(y);return Object.keys(E).filter(k=>k>=w[0]&&k<=w[1]&&E[k].t==='ferie').length}
+function prog(y){const t=key(new Date()),w=fin(y);return Object.keys(E).filter(k=>k>=w[0]&&k<=w[1]&&k>t&&E[k].t==='ferie').length}
+function contrInfo(y){if(P.contratto!=='det'||!P.inizioC)return '';const f=fineC();if(!f)return '<div class="mu" style="margin-top:6px">Imposta la data di fine contratto in Profilo.</div>';const i=dIso(P.inizioC),fmt=d=>pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear(),gg=Math.round((f-new Date(new Date().toDateString()))/864e5);return '<div class="mu" style="margin-top:8px">📄 Contratto a tempo determinato dal '+fmt(i)+' al '+fmt(f)+': '+mesiServ()+' mesi di servizio.'+(gg>=0?' Mancano '+gg+' giorni alla scadenza.':'')+'<br>Le ferie vanno godute entro la scadenza: se restano non fruite, il pagamento sostitutivo spetta solo se l’impossibilità non dipende da te (verifica con la segreteria).</div>'}
+function scad(y){if(!(+P.res>0))return '';const v=(P.scadRes||'30/04').split('/'),d=new Date(y,(+v[1]||4)-1,+v[0]||30),sc=key(d),us=Object.keys(E).filter(k=>k>=y+'-01-01'&&k<=sc&&E[k].t==='ferie').length*fat(),r=Math.max(0,+P.res-us);return r>.05?'<div class="mu" style="margin-top:6px">⏳ Ferie residue da usare entro '+pad(d.getDate())+'/'+pad(d.getMonth()+1)+': ancora '+gg(r/fat())+' giorni</div>':''}
+function crediti(){const q=[];Object.keys(E).filter(k=>/^\d{4}-/.test(k)).sort().forEach(k=>{const a=k.split('-').map(Number),b=bal(new Date(a[0],a[1]-1,a[2]));if(b===null)return;if(b>0)q.push([k,b]);else{let x=-b;while(x>0&&q.length){if(q[0][1]>x){q[0][1]-=x;x=0}else{x-=q[0][1];q.shift()}}}});return q}
+function credHtml(){const n=+P.bancaMesi||0;if(!n)return '';const q=crediti();if(!q.length)return '';return '<div class="card"><div class="mu">⏳ Crediti orari da recuperare</div>'+q.slice(0,3).map(x=>{const a=x[0].split('-').map(Number),s=new Date(a[0],a[1]-1+n,a[2]);return '<div><b>'+fh(x[1])+'</b> entro '+pad(s.getDate())+'/'+pad(s.getMonth()+1)+'/'+s.getFullYear()+'</div>'}).join('')+'</div>'}
+function figliL(){return (P.figli||'').split(',').map(x=>x.trim()).filter(Boolean)}
+function perFiglio(){const c={};Object.keys(E).forEach(k=>{if(E[k]&&E[k].t==='cong'&&E[k].f)c[E[k].f]=(c[E[k].f]||0)+1});return Object.keys(c).map(n=>'<div class="mu">• '+h(n)+': '+c[n]+' giorni (≈ '+(c[n]/30).toFixed(1)+' mesi)</div>').join('')}
+function stat(y){let w=0,gp=0,sa=0;const c={};Object.keys(E).forEach(k=>{if(!k.startsWith(y+'-'))return;const e=E[k];w+=worked(e);const t=e.t||'presenza';if(t==='presenza'){if(e.p&&e.p.length)gp++}else c[t]=(c[t]||0)+1;const a=k.split('-').map(Number),b=bal(new Date(a[0],a[1]-1,a[2]));if(b!==null)sa+=b});return '<div class="card"><h2>🗓️ Statistiche '+y+'</h2><div class="mu">Ore lavorate: <b>'+fh(w)+'</b> · giorni di presenza: <b>'+gp+'</b><br>Saldo dell’anno: <b>'+fm(sa)+'</b></div>'+Object.keys(c).map(t=>'<div class="mu">• '+TIPI[t]+': '+c[t]+' giorni</div>').join('')+'</div>'}
+function chart(y){const v=[];for(let m=0;m<12;m++)v.push(sumMonth(y,m));const mx=Math.max(1,...v.map(Math.abs));let s='<svg viewBox="0 0 240 90" width="100%" height="90"><line x1="0" y1="45" x2="240" y2="45" stroke="currentColor" opacity=".3"/>';v.forEach((x,i)=>{const hh=Math.abs(x)/mx*38;s+='<rect x="'+(i*20+3)+'" y="'+(x>=0?45-hh:45)+'" width="14" height="'+hh+'" rx="2" fill="'+(x>=0?'#16a870':'#f0556b')+'"/><text x="'+(i*20+10)+'" y="88" font-size="8" text-anchor="middle" fill="currentColor">'+'GFMAMGLASOND'[i]+'</text>'});return '<div class="card"><h2>📊 Saldo mensile '+y+'</h2>'+s+'</svg></div>'}
+let gs=0;const GP=[['⏱️','Timbra','Dalla Home tocca «Timbra ingresso» e «Timbra uscita».'],['📅','Agenda','Tocca un giorno del calendario per aggiungere orari, causali (ferie, L. 104, malattia…) e note.'],['📂','Importa','In Profilo puoi incollare le righe delle vecchie timbrature. Il caricamento dei file funziona solo nell’app Android.'],['📄','Report','Controlla le anomalie, guarda le statistiche e copia il CSV del mese.']];
+function guida(){const g=GP[gs];return '<div class="card" style="text-align:center;margin-top:40px"><div style="font-size:60px">'+g[0]+'</div><h1>'+g[1]+'</h1><div class="mu" style="margin-bottom:14px">'+g[2]+'</div><div class="mu">'+(gs+1)+' / '+GP.length+'</div><div class="grid2" style="margin-top:10px"><button class="sec" onclick="gFine()">Salta</button><button onclick="gAv()">'+(gs<GP.length-1?'Avanti':'Inizia')+'</button></div></div>'}
+function gAv(){if(gs<GP.length-1){gs++;render()}else gFine()}
+function gFine(){P.guida=true;sv('ata_p',P);render()}
+const svg=d=>'<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" fill-rule="evenodd"><path d="'+d+'"/></svg>';
+const IC={home:svg('M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'),cal:svg('M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10z'),sun:svg('M12 7.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zM11 1h2v3h-2zM11 20h2v3h-2zM1 11h3v2H1zM20 11h3v2h-3zM4.2 5.6l1.4-1.4 2.1 2.1-1.4 1.4zM16.3 17.7l1.4-1.4 2.1 2.1-1.4 1.4zM4.2 18.4l2.1-2.1 1.4 1.4-2.1 2.1zM16.3 6.3l2.1-2.1 1.4 1.4-2.1 2.1z'),doc:svg('M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM13 3.5V9h5.5zM8 13h8v2H8zM8 17h8v2H8z'),gear:svg('M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z')};
+const TC={presenza:'#16a870',ferie:'#2f9bea',fest:'#0ea5a4',permesso:'#14b8a6',malattia:'#f59e0b',recupero:'#6366f1',chiusura:'#94a3b8',fam:'#38bdf8',p104:'#8b5cf6',p104h:'#a78bfa',assemblea:'#d946ef',formazione:'#0ea5e9',pbreve:'#f97316',maternita:'#f472b6',paternita:'#60a5fa',malfiglio:'#fb7185',adozione:'#c084fc',riposi:'#fb923c',lutto:'#64748b',matrimonio:'#eab308',concorsi:'#14b8a6',violenza:'#7c3aed',biennale:'#8b5cf6',aspettativa:'#94a3b8',cong:'#ec4899'};
+function legenda(){const L=[['Orario ok','#16a870'],['Debito','#f0556b'],['Ferie',TC.ferie],['L. 104',TC.p104],['Malattia',TC.malattia],['Congedo',TC.cong],['Permesso',TC.permesso],['Festività','#e11d2e']];return '<div class="chips">'+L.map(x=>'<span class="chip"><i style="background:'+x[1]+'"></i>'+x[0]+'</span>').join('')+'</div>'}
+const TEMI={viola:['#7c5cff','#ff7ab8'],blu:['#2f7be0','#38bdf8'],verde:['#16a870','#a3e635'],arancio:['#f28c28','#f43f5e']};
+function applyTema(){const r=document.documentElement,t=TEMI[(P&&P.tema)||'viola']||TEMI.viola,m=(P&&P.modo)||'auto';r.style.setProperty('--pr',t[0]);r.style.setProperty('--gr','linear-gradient(135deg,'+t[0]+','+t[1]+')');if(m==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',m==='scuro'?'dark':'light')}
+function ringHtml(first){const t=new Date(),e=E[key(t)]||{},x=exp(t),ps=e.p||[];let w=worked(e);const l=ps[ps.length-1];if(l&&l[0]&&!l[1])w+=Math.max(0,(t.getHours()*60+t.getMinutes()+t.getSeconds()/60)-tm(l[0]));const pc=x?Math.min(1,w/x):(w>0?1:0),C=2*Math.PI*52,done=x&&w>=x;return '<div id="ring" style="text-align:center;margin:6px 0 10px"><svg viewBox="0 0 130 130" width="170" height="170"><circle cx="65" cy="65" r="52" fill="none" stroke-width="12" style="stroke:var(--bd)"/><circle cx="65" cy="65" r="52" fill="none" stroke-width="12" class="'+(first?'rg':'')+'" stroke-linecap="round" stroke-dasharray="'+(C*pc)+' '+C+'" transform="rotate(-90 65 65)" style="stroke:var('+(done?'--ok':'--pr')+')"/><text x="65" y="62" text-anchor="middle" font-size="16" font-weight="700" style="fill:currentColor">'+fh(w)+'</text><text x="65" y="80" text-anchor="middle" font-size="9" style="fill:var(--mu)">'+(x?(done?'obiettivo raggiunto':'mancano '+fh(x-w)):'giorno libero')+'</text></svg><div class="mu">Previsto '+fh(x)+'</div></div>'}
+function animNum(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;document.querySelectorAll('.big[data-v]').forEach(el=>{const v=+el.dataset.v,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/700),e=1-Math.pow(1-k,3);el.textContent=fm(v*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
+function confetti(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;const c=document.createElement('canvas');c.width=innerWidth;c.height=innerHeight;c.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:50';document.body.appendChild(c);const g=c.getContext('2d'),cols=['#7c5cff','#ff7ab8','#ffc857','#16a870','#38bdf8'],q=[...Array(90)].map(()=>({x:Math.random()*c.width,y:-20-Math.random()*220,v:2+Math.random()*3,s:5+Math.random()*5,c:cols[Math.floor(Math.random()*cols.length)],r:Math.random()*6}));let t=0;(function f(){g.clearRect(0,0,c.width,c.height);q.forEach(p=>{p.y+=p.v;p.x+=Math.sin((p.y+p.r)/20)*1.5;g.fillStyle=p.c;g.fillRect(p.x,p.y,p.s,p.s*.6)});if(++t<170)requestAnimationFrame(f);else c.remove()})()}
+const HL={p104h:'Ore di permesso L. 104 (max 2 al giorno)',assemblea:'Ore di assemblea sindacale (10 ore all’anno)',formazione:'Ore di formazione',pbreve:'Ore di permesso breve (max metà giornata)',riposi:'Ore di riposo giornaliero (max 2 al giorno)'},HM={p104h:2,assemblea:10,formazione:24,pbreve:12,riposi:2},HT=['p104h','assemblea','formazione','pbreve','riposi'];
+const AT=[['gen','Sicurezza sul lavoro (D.Lgs. 81/08)','Formazione generale (4 ore)','Non scade.',0],['spec','Sicurezza sul lavoro (D.Lgs. 81/08)','Formazione specifica, rischio medio (8 ore)','Aggiornamento di 6 ore ogni 5 anni.',5],['antinc','Sicurezza sul lavoro (D.Lgs. 81/08)','Addetto antincendio e gestione emergenze','8 o 12 ore; aggiornamento ogni 3 anni (5 ore).',3],['ps','Sicurezza sul lavoro (D.Lgs. 81/08)','Addetto al primo soccorso','12 o 16 ore; aggiornamento ogni 3 anni (4 ore di parte pratica).',3],['prep','Sicurezza sul lavoro (D.Lgs. 81/08)','Preposto per la sicurezza','Aggiornamento ogni 2 anni (6 ore).',2],['haccp','Sicurezza sul lavoro (D.Lgs. 81/08)','HACCP (igiene alimentare)','Per chi gestisce o serve i pasti in mensa; validità variabile da regione a regione, mediamente 2-3 anni.',3],['gdpr','Normativa e pubblica amministrazione','GDPR e privacy a scuola','Trattamento dei dati personali di alunni e famiglie.',0],['antic','Normativa e pubblica amministrazione','Trasparenza e anticorruzione (L. 190/2012)','Formazione periodica sui doveri dei dipendenti pubblici.',0],['incl','Normativa e pubblica amministrazione','Inclusione e assistenza alunni con disabilità / igiene personale','Per collaboratori scolastici e operatori scolastici.',0],['ciad','Titoli e certificazioni','CIAD (alfabetizzazione digitale, DigComp 2.2)','Requisito d’accesso per tutti i profili ATA tranne il collaboratore scolastico.',0],['inf','Titoli e certificazioni','Certificazione informatica aggiuntiva (Pekit, EIPASS, ICDL/ECDL, Cisco)','Dà punteggio nelle graduatorie di III fascia e 24 mesi.',0],['dattil','Titoli e certificazioni','Attestato di dattilografia','Per assistente amministrativo (+1 punto).',0],['osa','Titoli e certificazioni','Attestati professionali OSA / OSS / ASACOM','Qualifiche socio-assistenziali per operatore scolastico e servizi socio-educativi.',0]];
+function atList(){return AT.concat((P.attC||[]).map(c=>[c.id,'Altri attestati',c.n,'Attestato personalizzato',0,1]))}
+function atSt(id,def){const s=(P.att||{})[id]||{};if(!s.ok)return{c:'var(--mu)',t:'Da conseguire',k:0};const a=(s.a!=null&&s.a!=='')?+s.a:def;if(!a)return{c:'var(--ok)',t:'Posseduto, non scade',k:2};if(!s.d)return{c:'#f59e0b',t:'Inserisci la data di conseguimento',k:1};const sc=new Date(s.d+'T00:00:00');sc.setFullYear(sc.getFullYear()+a);const gg=Math.round((sc-new Date(new Date().toDateString()))/864e5),f=pad(sc.getDate())+'/'+pad(sc.getMonth()+1)+'/'+sc.getFullYear();return gg<0?{c:'var(--ko)',t:'Scaduto il '+f,k:3}:gg<=90?{c:'#f59e0b',t:'In scadenza il '+f+' (tra '+gg+' giorni)',k:4}:{c:'var(--ok)',t:'Valido fino al '+f,k:2}}
+function atSet(el){const id=el.dataset.id,k=el.dataset.k,v=el.type==='checkbox'?el.checked:el.value;P.att=P.att||{};P.att[id]=P.att[id]||{};P.att[id][k]=v;sv('ata_p',P);render()}
+function atDel(el){const id=el.dataset.id;P.attC=(P.attC||[]).filter(c=>c.id!==id);if(P.att)delete P.att[id];sv('ata_p',P);render()}
+function atAdd(){const n=document.getElementById('atN').value.trim();if(!n)return;P.attC=(P.attC||[]).concat([{id:'c'+Date.now(),n}]);sv('ata_p',P);render()}
+function atRes(){let a=0,b=0;atList().forEach(x=>{const s=atSt(x[0],x[4]);if(s.k===3)a++;if(s.k===4)b++});return[a,b]}
+function atCard(){const r=atRes();return `<div class="card" onclick="setView('at')" style="cursor:pointer"><div class="mu">🎓 Attestati e formazione</div><div>${r[0]+r[1]?`<b style="color:var(--ko)">${r[0]} scaduti</b> · <b style="color:#f59e0b">${r[1]} in scadenza</b>`:'Tocca per aprire la lista e seguirne le scadenze'}</div></div>`}
+function at(){const r=atRes();let cat='';return `<button class="sec sm" onclick="setView('home')">‹ Indietro</button><h1 class="ti">${IC.doc}Attestati</h1><div class="mu" style="margin-bottom:10px">Spunta gli attestati che possiedi e inserisci la data di conseguimento: l’app calcola la scadenza.</div><div class="card"><b style="color:var(--ko)">${r[0]} scaduti</b> · <b style="color:#f59e0b">${r[1]} in scadenza (entro 90 giorni)</b></div>`+atList().map(x=>{const s=(P.att||{})[x[0]]||{},st=atSt(x[0],x[4]);let t='';if(x[1]!==cat){cat=x[1];t='<h2 style="margin:14px 0 6px">'+h(cat)+'</h2>'}return t+`<div class="card"><label style="display:flex;gap:10px;align-items:flex-start;color:var(--tx);font-size:15px"><input type="checkbox" data-id="${x[0]}" data-k="ok" style="width:auto;margin:3px 0 0" ${s.ok?'checked':''} onchange="atSet(this)"><span><b>${h(x[2])}</b><br><span class="mu">${h(x[3])}</span></span></label>${s.ok?`<div class="grid2" style="margin-top:8px"><div><label>Data di conseguimento</label><input type="date" data-id="${x[0]}" data-k="d" value="${s.d||''}" onchange="atSet(this)"></div><div><label>Validità (anni, 0 = non scade)</label><input type="number" min="0" data-id="${x[0]}" data-k="a" value="${(s.a!=null&&s.a!=='')?s.a:x[4]}" onchange="atSet(this)"></div></div>`:''}<div style="color:${st.c};font-weight:700;font-size:13px">${st.t}</div>${x[5]?`<button class="sec sm" style="margin-top:6px" data-id="${x[0]}" onclick="atDel(this)">Elimina</button>`:''}</div>`}).join('')+`<div class="card"><label>Aggiungi un attestato personalizzato</label><input id="atN" placeholder="Nome dell’attestato"><button onclick="atAdd()">Aggiungi</button></div>`}
+function aS(){const t=new Date(),y=t.getMonth()>=8?t.getFullYear():t.getFullYear()-1;return[y+'-09-01',(y+1)+'-09-01']}
+function oreTipo(t){const w=aS();let s=0;Object.keys(E).forEach(k=>{if(k>=w[0]&&k<w[1]&&E[k]&&E[k].t===t)s+=E[k].hr||0});return s}
+function pbList(){const dq=[],all=[];Object.keys(E).filter(k=>/^\d{4}-/.test(k)).sort().forEach(k=>{const e=E[k],a=k.split('-').map(Number);if(e.t==='pbreve'&&e.hr>0){const x={k,dov:e.hr*60,rec:0};dq.push(x);all.push(x)}else{let cr=Math.max(0,bal(new Date(a[0],a[1]-1,a[2]))||0);while(cr>0&&dq.length){const x=dq[0],u=Math.min(x.dov-x.rec,cr);x.rec+=u;cr-=u;if(x.rec>=x.dov-1e-6)dq.shift()}}});return all}
+function extra2(y){const a=oreTipo('assemblea'),b=oreTipo('pbreve'),ap=pbList().filter(x=>x.rec<x.dov-.01),t=key(new Date());let s='<div class="card"><h2>📣 Assemblee sindacali</h2><div class="mu"><b>'+num(a)+'</b> su 10 ore nell’anno scolastico</div>'+bar(a,10)+'<div class="mu">In orario di servizio valgono come servizio, senza recupero.</div></div>';s+='<div class="card"><h2>⏱️ Permessi brevi</h2><div class="mu"><b>'+num(b)+'</b> su 36 ore nell’anno scolastico</div>'+bar(b,36)+(ap.length?ap.map(x=>{const q=x.k.split('-').map(Number),sc=new Date(q[0],q[1]-1+2,q[2]),over=key(sc)<t;return '<div class="mu">• '+q[2]+'/'+q[1]+'/'+q[0]+': da recuperare '+fh(x.dov-x.rec)+' entro '+pad(sc.getDate())+'/'+pad(sc.getMonth()+1)+'/'+sc.getFullYear()+(over?' ⚠️ scaduto: possibile trattenuta':'')+'</div>'}).join(''):'<div class="mu">Nessun recupero in sospeso ✅</div>')+'</div>';return s}
+const CF=[['paternita','Congedo di paternità',10,0],['maternita','Congedo di maternità',0,0],['malfiglio','Malattia del figlio',0,1],['adozione','Congedo adozione / affidamento',0,0],['lutto','Permesso per lutto',0,1],['matrimonio','Congedo matrimoniale',15,0],['concorsi','Permesso concorsi / esami',8,1],['violenza','Congedo vittime di violenza',120,0],['biennale','Congedo biennale assistenza disabili',730,0],['aspettativa','Aspettativa motivi familiari (non retribuita)',0,0]];
+function extra3(y){const w=aS()[0];let s='<div class="card"><h2>👨‍👩‍👧 Congedi e permessi familiari</h2>',q=false;CF.forEach(d=>{const n=Object.keys(E).filter(k=>E[k]&&E[k].t===d[0]&&(!d[3]||k>=w)).length;if(n){q=true;s+='<div class="mu">• '+d[1]+': <b>'+n+'</b> giorni'+(d[2]?' su '+d[2]:'')+(d[3]?' (anno scolastico)':'')+'</div>'}});const r=oreTipo('riposi');if(r>0){q=true;s+='<div class="mu">• Riposi giornalieri: <b>'+num(r)+'</b> ore (anno scolastico)</div>'}if(!q)s+='<div class="mu">Nessun congedo registrato.</div>';return s+'<div class="mu" style="margin-top:6px">Limiti indicativi (CCNL Scuola e D.Lgs. 151/2001): verifica sempre con la segreteria. Il congedo parentale e la malattia del figlio si registrano per figlio.</div></div>'}
+function en(t){return t=='fam'?P.fam:t=='p104'||t=='p104h'?P.f104:t=='cong'?P.cong:true}
+function hrs(y,m){let s=0;Object.keys(E).forEach(k=>{if(k.startsWith(y+'-'+pad(m)+'-')&&E[k].t==='p104h')s+=E[k].hr||0});return s}
+function banner(){if(!P.rem)return '';const t=new Date(),e=E[key(t)]||{},ps=e.p||[],n=t.getHours()*60+t.getMinutes();if(exp(t)&&(!e.t||e.t==='presenza')){if(!ps.length&&n>=tm(P.remIn||'07:30'))return '⏰ Non hai ancora timbrato l’ingresso';if(ps.length&&!ps[ps.length-1][1]&&n>=tm(P.remOut||'14:00'))return '⏰ Ricordati di timbrare l’uscita'}return ''}
+function nt(s){const m=/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/.exec(s||'');return m?pad(+m[1])+':'+m[2]+':'+(m[3]||'00'):''}
+let PEND=null;
+function applyImp(o){const k=Object.keys(o).sort(),n=k.length;if(!n)return false;PEND=o;const st=document.getElementById('impr');st.className='';st.innerHTML='<div class="card" style="margin:8px 0 0"><b>Trovate '+n+' giornate</b> (dal '+k[0]+' al '+k[n-1]+').<div class="mu">Quelle già presenti nelle stesse date verranno sostituite.</div><div class="grid2" style="margin-top:8px"><button onclick="doImp()">Importa</button><button class="sec" onclick="PEND=null;document.getElementById(\'impr\').innerHTML=\'\'">Annulla</button></div></div>';return true}
+function doImp(){if(!PEND)return;const k=Object.keys(PEND).sort();Object.assign(E,PEND);PEND=null;sv('ata_e',E);const d=k[0].split('-');cur=new Date(+d[0],+d[1]-1,1);view='ag';render()}
+function impT(){const st=document.getElementById('impr');try{if(!applyImp(parseImp(document.getElementById('impt').value)))throw 0}catch(x){st.className='ko';st.textContent='Non trovo righe valide: servono data e orari.'}}
+async function impPdf(el){const f=el.files[0],st=document.getElementById('impr');if(!f)return;
+try{st.className='mu';st.textContent='Lettura del PDF…';
+if(typeof pdfjsLib==='undefined')throw {message:'lettore PDF non caricato'};
+const s=await claude.use('sample');if(!s){st.className='ko';st.textContent='Estrazione con IA non disponibile in questa vista.';return}
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise;
+let txt='';for(let i=1;i<=Math.min(pdf.numPages,15);i++){const c=await(await pdf.getPage(i)).getTextContent();txt+='\n--- Pagina '+i+' ---\n'+c.items.map(x=>x.str+(x.hasEOL?'\n':' ')).join('')}
+let imgs=null;
+if(txt.replace(/[\s\d\-]|Pagina/g,'').length<60){let ok=false;try{ok=(await s.limits()).images}catch(x){}if(!ok)throw {message:'il PDF sembra una scansione e le immagini non sono supportate'};st.textContent='PDF scansionato: lo leggo come immagine…';imgs=[];for(let i=1;i<=Math.min(pdf.numPages,6);i++){const pg=await pdf.getPage(i),vp=pg.getViewport({scale:1.6}),cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;imgs.push(await new Promise(r=>cv.toBlob(r,'image/jpeg',.8)))}}
+st.textContent='L’IA sta estraendo i dati…';
+const prompt='Sei un assistente che estrae timbrature e assenze da un cartellino orario (o documento simile) di un dipendente scolastico italiano. Oggi è '+key(new Date())+'. Se l’anno manca, usa quello più plausibile in base al documento.\nRestituisci SOLO un array JSON di oggetti {"data":"AAAA-MM-GG","causale":"<chiave>","timbrature":[["HH:MM","HH:MM"]],"ore104":numero oppure null}.\nChiavi causale: '+Object.keys(TIPI).map(k=>k+'='+TIPI[k]).join('; ')+'.\nRegole: "presenza" per i giorni lavorati, con gli intervalli ingresso/uscita; per ferie, malattia e altre assenze timbrature può essere vuoto; non inventare dati e salta i giorni senza informazioni.';
+const r=await s.json(imgs?prompt:prompt+'\n\nDOCUMENTO:\n'+txt.slice(0,30000),imgs?{images:imgs}:{});
+const arr=Array.isArray(r)?r:(r&&r.giornate)||[],out={};
+arr.forEach(x=>{if(!x||!/^\d{4}-\d{2}-\d{2}$/.test(x.data))return;const t=TIPI[x.causale]?x.causale:'presenza';const p=(x.timbrature||[]).filter(a=>Array.isArray(a)&&nt(a[0])).map(a=>[nt(a[0]),nt(a[1])]);if(t==='presenza'&&!p.length)return;const e={t,p:t==='presenza'||t==='p104h'?p:[]};if(t==='p104h')e.hr=Math.min(2,+x.ore104||0);out[x.data]=e});
+st.textContent='';if(!applyImp(out)){st.className='ko';st.textContent='Non ho trovato timbrature o assenze in questo PDF.'}
+}catch(x){st.className='ko';st.textContent=x&&x.code==='not_granted'?'Permesso negato: senza consenso non posso usare l’IA.':'Non sono riuscito a leggere il PDF: '+((x&&x.message)||'riprova con un file più nitido')}finally{el.value=''}}
+function parseImp(t){t=t.replace(/^\uFEFF/,'').trim();
+if(t[0]==='{'){const o=JSON.parse(t),r={};Object.keys(o.e||{}).forEach(k=>{if(/^\d{4}-\d{2}-\d{2}$/.test(k))r[k]=o.e[k]});return r}
+const out={};
+t.split(/\r?\n/).forEach(l=>{let m=l.match(/(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})/),d;
+if(m)d=m[3]+'-'+pad(+m[2])+'-'+pad(+m[1]);else{m=l.match(/\d{4}-\d{2}-\d{2}/);if(!m)return;d=m[0]}
+const rest=l.replace(m[0],''),low=rest.toLowerCase();
+const ts=(rest.match(/\b(?:[01]?\d|2[0-3]):[0-5]\d(?::[0-5]\d)?\b/g)||[]).map(x=>{const a=x.split(':');return pad(+a[0])+':'+a[1]+':'+(a[2]||'00')});
+let tipo='presenza';for(const k in TIPI){if(k!=='presenza'&&low.includes(TIPI[k].toLowerCase().split(' (')[0]))tipo=k}
+const p=[];if(tipo==='presenza'||tipo==='p104h')for(let i=0;i<ts.length;i+=2)p.push([ts[i],ts[i+1]||'']);
+if(tipo==='presenza'&&!p.length)return;
+const e={t:tipo,p};if(tipo==='p104h')e.hr=0;out[d]=e});return out}
+function impF(el){const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=parseImp(String(r.result)),n=Object.keys(o).length;if(!n)throw 0;applyImp(o)}catch(x){document.getElementById('impr').textContent='Non riesco a leggere il file: controlla il formato (una riga per giorno con data e orari).'}el.value=''};r.onerror=()=>{document.getElementById('impr').textContent='Lettura del file non riuscita.'};r.readAsText(f)}
+function im(){return `<h2 style="margin-top:14px">📂 Importa vecchie timbrature</h2><button style="margin-top:4px" onclick="document.getElementById('impf').click()">📂 Scegli file da caricare (.csv, .txt, .json)</button><input id="impf" type="file" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none" onchange="impF(this)"><div class="mu" style="margin-top:8px">Una riga per giorno, con data (gg/mm/aaaa) e orari, per esempio: <b>05/09/2025;08:00;14:00</b>. Puoi aggiungere altri orari (rientro) e la causale (Ferie, Malattia…). Da Excel: Salva con nome → CSV.</div>${typeof claude==='undefined'?'':`<button style="margin-top:10px" onclick="document.getElementById('imppdf').click()">📄 Scegli PDF · estrazione con IA</button><input id="imppdf" type="file" accept=".pdf,application/pdf" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none" onchange="impPdf(this)"><div class="mu" style="margin-top:6px">L’IA legge il PDF (anche scansionato) e propone le giornate trovate: potrai controllare e confermare. Il contenuto viene inviato a Claude solo quando lo carichi. Verifica sempre i dati importati.</div>`}<div id="impr" class="ko" style="font-size:13px"></div><textarea id="impt" placeholder="Se il caricamento non si apre, incolla qui le righe del file (una per giorno, con data e orari)" style="margin-top:8px"></textarea><button class="sec" onclick="impT()">Importa il testo incollato</button>`}
+function inf(){return `<h2 style="margin-top:14px">ℹ️ Informazioni</h2><div class="mu">Agenda ATA · versione web 1.5<br><a href="mailto:?subject=Agenda%20ATA%201.5%20-%20segnalazione" style="color:var(--pr)">📨 Segnala un problema o un consiglio</a><br>© 2026 Papa Gianpaolo. Tutti i diritti riservati.</div><div class="mu" style="margin-top:6px">L’app è un diario personale delle presenze: non sostituisce la timbratura ufficiale né i conteggi della scuola. Verifica sempre i dati con la segreteria.</div><div class="mu" style="margin-top:6px">Questa è la versione web: non ha ancora turni, appuntamenti, permesso donazione sangue e promemoria a schermo spento, presenti nell’app Android. I dati restano su questo telefono: crea ogni tanto un backup.</div>`}
+function bk(){return `<h2 style="margin-top:14px">💾 Backup dei dati</h2><div class="grid2"><button class="sec" onclick="bkCopy()">Copia backup</button><button class="sec" onclick="bkRest()">Ripristina</button></div><textarea id="bkt" placeholder="Qui compare il backup. Per ripristinare, incolla qui il testo copiato e premi Ripristina." style="margin-top:8px"></textarea>`}
+function bkCopy(){const t=JSON.stringify({v:1,p:P,e:E}),a=document.getElementById('bkt');a.value=t;a.select();try{navigator.clipboard.writeText(t).then(()=>alert('Backup copiato: incollalo in una nota o in una mail.'))}catch(x){}}
+function bkRest(){try{const o=JSON.parse(document.getElementById('bkt').value);if(!o||!o.p||!o.e)throw 0;P=o.p;E=o.e;sv('ata_p',P);sv('ata_e',E);view='home';render()}catch(x){alert('Backup non valido')}}
+function cnt(t,y,m){const p=m?y+'-'+pad(m)+'-':y+'-';return Object.keys(E).filter(k=>k.startsWith(p)&&E[k].t===t).length}
+function bar(a,b){return `<div class="bar" style="margin:6px 0"><i style="width:${Math.min(100,a/Math.max(b,1)*100)}%"></i></div>`}
+function extra(y){let s='';const m=new Date().getMonth()+1;
+if(P.fam){const a=cnt('fam',y),b=P.famMax||6,c=cnt('permesso',y),d=P.permMax||3;s+=`<div class="card"><h2>👨‍👩‍👧 Motivi familiari ${y}</h2><div class="mu">Ferie per motivi familiari: <b>${a}</b> su ${b}</div>${bar(a,b)}<div class="mu">Permessi retribuiti personali/familiari: <b>${c}</b> su ${d}</div>${bar(c,d)}</div>`}
+if(P.f104){const a=cnt('p104',y,m);s+=`<div class="card"><h2>♿ Permessi L. 104 · ${MESI[m-1]}</h2><div class="mu"><b>${a}</b> su 3 giorni al mese · totale anno: ${cnt('p104',y)}</div>${bar(a,3)}<div class="mu">Permessi a ore: <b>${hrs(y,m)}</b> h nel mese</div></div>`}
+if(P.cong){const mx=P.congMax||10,tot=Object.keys(E).filter(k=>E[k].t==='cong').length;s+=`<div class="card"><h2>🍼 Congedo parentale (figli fino a 12 anni)</h2><div class="mu">Nell’anno: <b>${cnt('cong',y)}</b> giorni · totale registrato: ${tot} giorni (≈ ${(tot/30).toFixed(1)} mesi su ${mx})</div>${bar(tot/30,mx)}${perFiglio()}</div>`}
+return s}
+function greet(){const x=new Date().getHours();return x<12?['☀️','Buongiorno']:x<18?['🌤️','Buon pomeriggio']:['🌙','Buonasera']}
+function msg(){const t=new Date(),b=sumMonth(t.getFullYear(),t.getMonth());return b>0?`Questo mese sei in credito di ${fh(b)} 🎉`:b<0?`Questo mese ti mancano ${fh(-b)} 💪`:'Oggi si parte alla grande ✨'}
+function ferieRim(){const y=new Date().getFullYear(),f=ferieSpet();return f.ferie+(+P.res||0)-cf(y)*fat()}
+function timbra(){const t=new Date(),k=key(t),hh=pad(t.getHours())+':'+pad(t.getMinutes())+':'+pad(t.getSeconds());
+ const e=E[k]=E[k]||{t:'presenza',p:[]};e.p=e.p||[];if(!e.t)e.t='presenza';
+ const l=e.p[e.p.length-1];let chiuso=false;if(l&&!l[1]){l[1]=hh;chiuso=true}else e.p.push([hh,'']);if(chiuso&&exp(t)&&worked(e)>=exp(t))setTimeout(confetti,350);
+ sv('ata_e',E);render()}
+function ag(){
+ const y=cur.getFullYear(),m=cur.getMonth(),f=new Date(y,m,1),n=new Date(y,m+1,0).getDate(),off=(f.getDay()+6)%7,td=key(new Date());
+ let c=['L','M','M','G','V','S','D'].map(x=>`<div class="h">${x}</div>`).join('');
+ for(let i=0;i<off;i++)c+='<div></div>';
+ for(let i=1;i<=n;i++){const d=new Date(y,m,i),e=E[key(d)],b=bal(d);let cl='';
+  if(e&&e.t&&e.t!=='presenza'&&e.t!=='recupero'&&!HT.includes(e.t))cl='b';else if(b!==null)cl=b>=0?'g':'r';
+  c+=`<button class="d ${cl} ${key(d)===td?'t':''} ${fest(d)?'f':''}" style="${cl==='b'?'--c:'+(TC[e.t]||'#3b8cf0'):''}" onclick="openDay('${key(d)}')">${i}<small>${e&&e.n?'📝':''}${b!==null&&Math.abs(b)>=.5?fm(b,1).replace(' ',''):(e&&e.t&&e.t!=='presenza'?TIPI[e.t].slice(0,3):'')}</small></button>`}
+ return `<h1 class="ti">${IC.cal}Agenda</h1><div class="row" style="margin-bottom:10px"><button class="sec sm" onclick="mv(-1)">‹</button><b>${MESI[m]} ${y}</b><button class="sec sm" onclick="mv(1)">›</button></div>
+ <div class="card"><div class="cal">${c}</div></div>
+ ${legenda()}${festMese(y,m)}
+ <div class="card" style="margin-top:12px"><div class="mu">Saldo del mese</div>${sv2(sumMonth(y,m))}</div>`
+}
+function festMese(y,m){const n=new Date(y,m+1,0).getDate(),o=[];for(let i=1;i<=n;i++){const f=fest(new Date(y,m,i));if(f)o.push('<div class="mu">🔴 '+i+'/'+(m+1)+' · '+f+'</div>')}return o.join('')}
+function mv(d){cur=new Date(cur.getFullYear(),cur.getMonth()+d,1);render()}
+function openDay(k){sel=k;const e=E[k]||{t:'presenza',p:[]};E._tmp=JSON.parse(JSON.stringify(e));drawModal()}
+function drawModal(){
+ const e=E._tmp,[y,m,d]=sel.split('-').map(Number),dt=new Date(y,m-1,d);
+ let box=document.getElementById('modal');if(!box){box=document.createElement('div');box.id='modal';box.className='modal';document.body.appendChild(box)}
+ box.innerHTML=`<div><div class="row"><h2>${GG[dt.getDay()]} ${d} ${MESI[m-1]}</h2><button class="sec sm" onclick="closeM()">✕</button></div>
+ <div class="mu">Previsto: ${fh(exp(dt))}</div><label>Causale</label>
+ <select onchange="E._tmp.t=this.value;drawModal()">${Object.keys(TIPI).filter(t=>en(t)||e.t===t).map(t=>`<option value="${t}" ${e.t===t?'selected':''}>${TIPI[t]}</option>`).join('')}</select>
+ ${HT.includes(e.t)?`<label>${HL[e.t]}</label><input type="number" min="0" step="0.25" value="${e.hr||0}" onchange="E._tmp.hr=Math.min(HM[E._tmp.t],+this.value||0)">`:''}${e.t==='assemblea'||e.t==='formazione'?`<label>Svolta</label><select onchange="E._tmp.d=this.value"><option value="servizio" ${e.d!=='fuori'?'selected':''}>In orario di servizio</option><option value="fuori" ${e.d==='fuori'?'selected':''}>Fuori dall’orario di servizio</option></select><div class="mu" style="margin-bottom:8px">${e.t==='assemblea'?'In servizio vale come servizio (nessun recupero); fuori orario la partecipazione è libera e non dà recupero.':'In orario di servizio nessun debito o credito; fuori orario le ore sono lavoro effettivo e spetta il recupero. Se hai timbrato tutta la giornata, non inserire le ore in orario: sono già contate.'}</div>`:''}${(e.t==='presenza'||HT.includes(e.t))?`<label>Timbrature</label>${(e.p||[]).map((p,i)=>`<div class="pr"><input type="time" step="1" value="${ns(p[0])}" onchange="E._tmp.p[${i}][0]=this.value"><input type="time" step="1" value="${ns(p[1])}" onchange="E._tmp.p[${i}][1]=this.value"><button class="sec sm" style="margin-bottom:10px" onclick="E._tmp.p.splice(${i},1);drawModal()">🗑</button></div>`).join('')}
+ <button class="sec" style="margin-bottom:10px" onclick="E._tmp.p.push(['','']);drawModal()">+ Aggiungi orario</button>`:''}
+ ${['cong','malfiglio','adozione'].includes(e.t)&&figliL().length?`<label>Figlio</label><select onchange="E._tmp.f=this.value"><option value="">—</option>${figliL().map(n=>`<option ${e.f===n?'selected':''}>${h(n)}</option>`).join('')}</select>`:''}<label>Nota (facoltativa)</label><textarea id="nota" style="height:70px;margin-bottom:10px" oninput="E._tmp.n=this.value">${h(e.n||'')}</textarea>
+ <div class="grid2"><button class="sec" onclick="delDay()">Cancella giornata</button><button onclick="saveDay()">Salva</button></div></div>`
+}
+function closeM(){const b=document.getElementById('modal');if(b)b.remove();delete E._tmp;render()}
+function saveDay(){const e=E._tmp;e.p=(e.p||[]).filter(p=>p[0]);delete E._tmp;E[sel]=e;sv('ata_e',E);const b=document.getElementById('modal');if(b)b.remove();render()}
+function delDay(){delete E[sel];delete E._tmp;sv('ata_e',E);const b=document.getElementById('modal');if(b)b.remove();render()}
+function fe(){
+ const y=new Date().getFullYear(),f=ferieSpet(),tot=f.ferie+(+P.res||0),g=cf(y),gf=godute('fest',y),pc=Math.min(100,g*fat()/Math.max(tot,1)*100);
+ return `<h1 class="ti">${IC.sun}Ferie e permessi</h1><div class="card"><h2>Ferie ${y}</h2>
+ <div class="ring" style="--p:${pc}"><b>${gg((tot-g*fat())/fat())}</b><small>giorni rimasti</small></div>
+ <div class="grid2" style="margin-top:10px"><div><div class="mu">Spettanti</div><div class="big">${tot}</div><div class="mu">${f.ferie} + ${+P.res||0} residui</div>${fat()>1?'<div class="mu" style="margin-top:4px">Fruibili davvero: <b>'+gg(tot/fat())+'</b> ('+tot+' ÷ 1,2)</div>':''}</div>
+ <div><div class="mu">Godute</div><div class="big">${g-prog(y)}</div><div class="mu">Programmate: ${prog(y)}</div></div></div>
+ <div class="mu" style="margin-top:8px">Rimanenti</div><div class="big ok">${gg((tot-g*fat())/fat())} giorni</div>${fat()>1?'<div class="mu" style="margin-top:6px">Settimana corta: ogni giorno di ferie scala 1,2 dal monte ferie (5 giorni dal lunedì al venerdì = 6). Monte ferie residuo: '+num(tot-g*fat())+' su '+tot+'.</div>':''}${scad(y)}${contrInfo(y)}</div>
+ <div class="card"><h2>Festività soppresse</h2><div class="big">${f.fest-gf} <span class="mu">su ${f.fest} rimanenti</span></div></div>
+ <div class="card"><h2>Permessi e assenze ${y}</h2><div class="mu">Permessi retribuiti: ${godute('permesso',y)} giorni<br>Malattia: ${godute('malattia',y)} giorni<br>Recuperi: ${godute('recupero',y)} giorni</div></div>${extra(y)}${extra2(y)}${extra3(y)}
+ <div class="mu">Calcolo secondo il CCNL Scuola (art. 13): 32 giorni di ferie dopo 3 anni di servizio, 30 nei primi 3 anni, più le festività soppresse (3 dal 2026). Part-time orizzontale: stessi giorni del tempo pieno. Part-time verticale: giorni proporzionali alle giornate lavorate su 6 (esempio: 3 giorni = 16 di ferie). Con la settimana corta (5 giorni) ogni giorno di ferie scala 1,2 dal monte ferie, perché il sesto giorno conta come lavorativo: 5 giorni dal lunedì al venerdì = 6 giorni. I giorni davvero fruibili sono quindi quelli spettanti ÷ 1,2 (esempio: 25 ÷ 1,2 ≈ 21). Il risultato si arrotonda al giorno intero: da ,51 in su al giorno successivo, fino a ,50 al giorno precedente. Nell’anno di assunzione o cessazione si proporziona ai dodicesimi. Verifica sempre con la segreteria.</div>`
+}
+function rows(y,m){const n=new Date(y,m+1,0).getDate(),r=[];for(let i=1;i<=n;i++){const d=new Date(y,m,i),e=E[key(d)],b=bal(d);r.push([pad(i)+'/'+pad(m+1)+'/'+y,GG[d.getDay()],e?TIPI[e.t||'presenza']:'',e&&e.p?e.p.filter(p=>p[0]).map(p=>p[0]+'-'+(p[1]||'')).join(' '):'',e?fh(worked(e)):'',fh(exp(d)),b===null?'':fm(b),e&&e.n||''])}return r}
+function re(){
+ const y=cur.getFullYear(),m=cur.getMonth(),r=rows(y,m);
+ return `<h1 class="ti">${IC.doc}Report</h1><div class="row" style="margin-bottom:10px"><button class="sec sm" onclick="mv(-1)">‹</button><b>${MESI[m]} ${y}</b><button class="sec sm" onclick="mv(1)">›</button></div>
+ <div class="card"><b>${h(P.nome+' '+P.cognome)}</b><div class="mu">${h(P.profilo)}${P.scuola||P.plesso?' · '+h([P.scuola,P.plesso].filter(Boolean).join(' – ')):''}</div>
+ <div class="sc" style="margin-top:8px"><table><tr><th>Data</th><th>Causale</th><th>Timbr.</th><th>Lav.</th><th>Saldo</th><th>Nota</th></tr>${r.filter(x=>x[2]||x[3]).map(x=>`<tr><td>${x[0].slice(0,5)} ${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[6]}</td><td style="white-space:normal">${h(x[7]||'')}</td></tr>`).join('')||'<tr><td colspan="5" class="mu">Nessun dato</td></tr>'}</table></div>
+ <div style="margin-top:10px">Saldo mese: <b>${fm(sumMonth(y,m))}</b></div></div>
+ ${anom(y,m)}
+ ${stat(y)}${chart(y)}
+ <div class="grid2"><button onclick="csv()">Copia CSV</button><button class="sec" onclick="window.print()">Stampa / PDF</button></div>
+ ${note?`<div class="mu" style="margin:10px 0">${note}</div><textarea readonly id="csvt">${h(csvText())}</textarea>`:''}`
+}
+function csvText(){const y=cur.getFullYear(),m=cur.getMonth();return [['Dipendente',P.nome+' '+P.cognome,[P.scuola,P.plesso].filter(Boolean).join(' – ')],['Data','Giorno','Causale','Timbrature','Lavorato','Previsto','Saldo','Nota'],...rows(y,m),['Saldo mese',fm(sumMonth(y,m))]].map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\n')}
+function csv(){const t=csvText();note='Seleziona e copia il testo qui sotto, poi incollalo in Excel o in un’e-mail.';
+ try{navigator.clipboard.writeText(t).then(()=>{note='CSV copiato negli appunti. Incollalo in Excel o in un’e-mail.';render()}).catch(()=>{})}catch(e){}
+ render()}
+function prof(first){
+ const p=P||{nome:'',cognome:'',profilo:'Collaboratore Scolastico',scuola:'',contratto:'ind',ore:36,giorni:5,anz:'gt3',res:0};
+ const o=(v,a,l)=>`<option value="${v}" ${a==v?'selected':''}>${l}</option>`;
+ return `<h1 class="ti">${IC.gear}${first?'Benvenuto! Configura il profilo':'Profilo e contratto'}</h1><div class="card">
+ <label>Nome</label><input id="f_nome" value="${h(p.nome)}"><label>Cognome</label><input id="f_cognome" value="${h(p.cognome)}">
+ <label>Profilo ATA</label><select id="f_profilo">${['Collaboratore Scolastico','Assistente Amministrativo','Assistente Tecnico','DSGA','Cuoco','Guardarobiere','Infermiere'].map(x=>o(x,p.profilo,x)).join('')}</select>
+ <label>Scuola (opzionale)</label><input id="f_scuola" value="${h(p.scuola)}"><label>Plesso / sede (opzionale)</label><input id="f_plesso" value="${h(p.plesso||'')}"><div class="mu" style="margin:-4px 0 10px">Nomi ufficiali di scuole e plessi: <a href="https://dati.istruzione.it/opendata/opendata/catalogo/elements1/leaf/?datasetId=DS0400SCUANAGRAFESTAT" target="_blank" rel="noopener" style="color:var(--pr)">elenco del Ministero</a>. Nell’app Android la ricerca è automatica.</div>
+ <label>Contratto</label><select id="f_contratto" onchange="contrUi(this.value)">${o('ind',p.contratto,'Tempo indeterminato')}${o('det',p.contratto,'Tempo determinato')}</select>
+ <div id="bx_det" style="${p.contratto==='det'?'':'display:none'}"><label>Scadenza del contratto</label><select id="f_scadC" onchange="document.getElementById('bx_fineC').style.display=this.value==='altra'?'':'none'">${o('30giu',p.scadC||'30giu','30 giugno (fino al termine delle attività didattiche)')}${o('31ago',p.scadC||'30giu','31 agosto (fino al termine dell’anno scolastico)')}${o('altra',p.scadC||'30giu','Altra data')}</select><label>Data di inizio del contratto</label><input id="f_inizioC" type="date" value="${p.inizioC||''}"><div id="bx_fineC" style="${(p.scadC||'30giu')==='altra'?'':'display:none'}"><label>Data di fine del contratto</label><input id="f_fineC" type="date" value="${p.fineC||''}"></div></div>
+ <label>Tipo di orario</label><select id="f_tipo" onchange="tipoUi(this.value)">${o('pieno',p.tipoOrario||'pieno','Tempo pieno')}${o('orizz',p.tipoOrario||'pieno','Part-time orizzontale (tutti i giorni, meno ore)')}${o('vert',p.tipoOrario||'pieno','Part-time verticale (solo alcuni giorni)')}${o('pers',p.tipoOrario||'pieno','Personalizzato (ore diverse per giorno)')}</select>
+ <div id="bx_ore" style="${p.tipoOrario==='pers'?'display:none':''}"><label>Ore settimanali (36 = tempo pieno)</label><input id="f_ore" type="number" min="1" max="36" step="0.5" value="${p.ore}"></div>
+ <div id="bx_sett" style="${p.tipoOrario==='vert'||p.tipoOrario==='pers'?'display:none':''}"><label>Settimana</label><select id="f_giorni">${o(5,p.giorni,'Corta: 5 giorni (Lun–Ven)')}${o(6,p.giorni,'Lunga: 6 giorni (Lun–Sab)')}</select></div>
+ <div id="bx_vert" style="${p.tipoOrario==='vert'?'':'display:none'}"><label>Giorni in cui lavori (le ore si dividono tra questi)</label><div style="margin-bottom:10px">${['L','M','M','G','V','S'].map((n,i)=>`<label style="display:inline-block;margin-right:12px;color:var(--tx);font-size:15px"><input type="checkbox" class="gl" value="${i+1}" style="width:auto;margin:0 4px 0 0" ${(p.giorniLav||[1,2,3,4,5]).includes(i+1)?'checked':''}>${n}</label>`).join('')}</div></div>
+ <div id="bx_pers" style="${p.tipoOrario==='pers'?'':'display:none'}"><label>Ore per giorno, da lunedì a sabato (0 = giorno libero)</label><div>${['Lun','Mar','Mer','Gio','Ven','Sab'].map((n,i)=>`<input class="og" type="number" step="0.25" min="0" max="12" placeholder="${n}" value="${(p.oreGiorno&&p.oreGiorno[i]!=null)?p.oreGiorno[i]:''}" style="width:15%;display:inline-block;margin:0 2px 8px 0;padding:8px 4px">`).join('')}</div></div>
+ <label>Mesi di servizio in quest’anno (12 = tutto l’anno; per assunzione o cessazione)</label><input id="f_mesiAnno" type="number" min="1" max="12" value="${p.mesiAnno||12}">
+ <label>Giorni di festività soppresse (CCNL: 3 dal 2026)</label><input id="f_festSopp" type="number" min="0" value="${p.festSopp==null?3:p.festSopp}">
+ <label>Giorni di ferie annuali (vuoto = calcolo automatico)</label><input id="f_ferieMan" type="number" min="0" value="${p.ferieMan==null?'':p.ferieMan}">
+ <label>Anzianità di servizio</label><select id="f_anz">${o('lt3',p.anz,'Meno di 3 anni')}${o('gt3',p.anz,'Oltre 3 anni')}</select>
+ <label>Ferie residue anno precedente (giorni)</label><input id="f_res" type="number" min="0" value="${p.res}">
+ <h2 style="margin-top:8px">Permessi e congedi (da abilitare)</h2>
+ <label>👨‍👩‍👧 Ferie e permessi per motivi familiari</label><select id="f_fam">${o(0,p.fam?1:0,'Disattivato')}${o(1,p.fam?1:0,'Attivo')}</select>
+ <label>Giorni di ferie per motivi familiari/personali (CCNL: 6)</label><input id="f_famMax" type="number" min="0" value="${p.famMax||6}">
+ <label>Permessi retribuiti personali/familiari (CCNL: 3)</label><input id="f_permMax" type="number" min="0" value="${p.permMax||3}">
+ <label>♿ Permessi Legge 104 (3 giorni al mese)</label><select id="f_f104">${o(0,p.f104?1:0,'Disattivato')}${o(1,p.f104?1:0,'Attivo')}</select>
+ <label>🍼 Congedo parentale (figli fino a 12 anni)</label><select id="f_cong">${o(0,p.cong?1:0,'Disattivato')}${o(1,p.cong?1:0,'Attivo')}</select>
+ <label>Mesi di congedo parentale fruibili (di norma 10)</label><input id="f_congMax" type="number" min="0" step="0.5" value="${p.congMax||10}">
+ <div class="mu" style="margin-bottom:10px">I limiti sono modificabili: verificali con la segreteria o il sindacato, perché dipendono dalla tua situazione.</div>
+ <h2 style="margin-top:8px">🎨 Aspetto</h2>
+ <label>Colore dell’app</label><select id="f_tema" onchange="if(P){P.tema=this.value;applyTema()}">${o('viola',p.tema||'viola','Viola')}${o('blu',p.tema||'viola','Blu')}${o('verde',p.tema||'viola','Verde')}${o('arancio',p.tema||'viola','Arancio')}</select>
+ <label>Tema</label><select id="f_modo" onchange="if(P){P.modo=this.value;applyTema()}">${o('auto',p.modo||'auto','Automatico')}${o('chiaro',p.modo||'auto','Chiaro')}${o('scuro',p.modo||'auto','Scuro')}</select>
+ <h2 style="margin-top:8px">📆 Ferie, banca ore e figli</h2>
+ <label>Scadenza ferie residue (gg/mm)</label><input id="f_scadRes" value="${h(p.scadRes||'30/04')}">
+ <label>Mesi di validità dei crediti orari (0 = nessuna scadenza)</label><input id="f_bancaMesi" type="number" min="0" value="${p.bancaMesi||0}">
+ <label>Nomi dei figli per il congedo parentale (separati da virgola)</label><input id="f_figli" value="${h(p.figli||'')}">
+ <h2 style="margin-top:8px">⏰ Promemoria timbratura</h2>
+ <label>Promemoria</label><select id="f_rem">${o(0,p.rem?1:0,'Disattivato')}${o(1,p.rem?1:0,'Attivo')}</select>
+ <label>Orario ingresso</label><input id="f_remIn" type="time" value="${p.remIn||'07:30'}">
+ <label>Orario uscita</label><input id="f_remOut" type="time" value="${p.remOut||'14:00'}">
+ <button class="sec" style="margin-bottom:8px" onclick="try{Notification.requestPermission().then(r=>alert(r==='granted'?'Notifiche attivate':'Notifiche non consentite'))}catch(x){alert('Notifiche non disponibili qui')}">🔔 Consenti notifiche</button>
+ <div class="mu" style="margin-bottom:10px">Il promemoria funziona con l’app aperta. Per avvisi a schermo spento usa una sveglia del telefono o l’app Android.</div>
+ <button onclick="saveP()">${first?'Inizia':'Salva'}</button>${first?'':bk()+im()+inf()}</div>
+ ${first?'':'<button class="sec" onclick="if(confirm(\'Cancellare tutti i dati?\')){E={};sv(\'ata_e\',E);render()}">Cancella tutte le timbrature</button><div class="mu" style="margin-top:10px">I dati restano solo su questo dispositivo, nel browser.</div>'}`
+}
+function saveP(){const g=i=>document.getElementById('f_'+i).value;
+ if(!g('nome').trim()){alert('Inserisci il nome');return}
+ P={nome:g('nome').trim(),cognome:g('cognome').trim(),profilo:g('profilo'),scuola:g('scuola').trim(),plesso:g('plesso').trim(),contratto:g('contratto'),scadC:g('scadC'),inizioC:g('inizioC'),fineC:g('fineC'),ore:g('tipo')==='pers'?([...document.querySelectorAll('.og')].reduce((a,x)=>a+(+x.value||0),0)||36):(+g('ore')||36),giorni:+g('giorni'),tipoOrario:g('tipo'),giorniLav:[...document.querySelectorAll('.gl:checked')].map(x=>+x.value),oreGiorno:[...document.querySelectorAll('.og')].map(x=>+x.value||0),ferieMan:g('ferieMan').trim()===''?null:+g('ferieMan'),mesiAnno:+g('mesiAnno')||12,festSopp:g('festSopp')===''?3:+g('festSopp'),anz:g('anz'),res:+g('res')||0,fam:+g('fam'),famMax:+g('famMax')||6,permMax:+g('permMax')||3,f104:+g('f104'),cong:+g('cong'),congMax:+g('congMax')||10,rem:+g('rem'),remIn:g('remIn')||'07:30',remOut:g('remOut')||'14:00',scadRes:g('scadRes').trim()||'30/04',bancaMesi:+g('bancaMesi')||0,figli:g('figli').trim(),guida:P&&P.guida,tema:g('tema'),modo:g('modo')};
+ sv('ata_p',P);view='home';render()}
+setInterval(()=>{try{const r=document.getElementById('ring');if(r&&view==='home'&&P)r.outerHTML=ringHtml()}catch(x){}},1000);
+window._n={};setInterval(()=>{try{const b=P&&banner();const k=key(new Date())+b;if(b&&window.Notification&&Notification.permission==='granted'&&!window._n[k]){window._n[k]=1;new Notification('ATA Agenda',{body:b})}if(view==='home'&&!document.getElementById('modal'))render()}catch(x){}},60000);
+render();
+
+(function(){try{const ios=/iphone|ipad|ipod/i.test(navigator.userAgent),sa=window.navigator.standalone||matchMedia('(display-mode: standalone)').matches;if(ios&&!sa&&!localStorage.getItem('ata_inst')){const d=document.createElement('div');d.id='inst';d.innerHTML='<b>Installa l\u2019app sul telefono</b><br>Tocca <b>Condividi</b> (il quadrato con la freccia) e poi <b>Aggiungi a schermata Home</b>.<br><button class="sec sm" id="instok">Ho capito</button>';document.body.insertBefore(d,document.body.firstChild);document.getElementById('instok').onclick=function(){d.remove();localStorage.setItem('ata_inst','1')}}}catch(e){}})();
+if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').catch(function(){});
+</script>
+</body>
+</html>

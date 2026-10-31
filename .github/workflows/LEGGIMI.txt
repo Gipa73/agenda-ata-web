@@ -1,0 +1,44 @@
+AGENDA ATA - VERSIONE PER IPHONE (app web installabile) - versione 1.5
+
+CONTENUTO
+  index.html            l'app
+  manifest.webmanifest  nome e icona dell'app sulla schermata Home
+  sw.js                 permette di usarla anche senza rete
+  icon-*.png, apple-touch-icon.png   icone
+  .nojekyll             file vuoto, serve a GitHub Pages
+
+COME PUBBLICARLA (gratis, con GitHub Pages)
+ 1. Su github.com crea un NUOVO repository e chiamalo, per esempio, agenda-ata-web.
+    Deve essere PUBBLICO (GitHub Pages gratuito non funziona sui repository privati).
+    ATTENZIONE: usa un repository diverso da quello del progetto Android, che deve restare PRIVATO
+    perche' contiene la chiave di firma. Qui dentro non ci sono dati personali: i dati restano
+    sul telefono di ciascuno.
+ 2. Premi "uploading an existing file" e trascina TUTTI i file di questa cartella
+    (index.html, manifest.webmanifest, sw.js, le icone e .nojekyll). Poi "Commit changes".
+ 3. Vai in Settings > Pages. In "Build and deployment" scegli:
+    Source = "Deploy from a branch", Branch = "main", cartella "/ (root)". Premi Save.
+ 4. Dopo 1-2 minuti compare l'indirizzo:  https://TUONOMEUTENTE.github.io/agenda-ata-web/
+    Apri l'indirizzo per controllare che funzioni.
+
+COME INSTALLARLA SULL'IPHONE
+ 1. Apri l'indirizzo con SAFARI.
+ 2. Tocca Condividi (il quadrato con la freccia in alto) > "Aggiungi alla schermata Home" > Aggiungi.
+ 3. Usa l'app dall'icona sulla Home. IMPORTANTE: installala PRIMA di inserire i dati. I dati inseriti
+    dentro Safari e quelli dell'icona sulla Home sono separati e non si trasferiscono da soli.
+
+COME AGGIORNARLA
+ Sostituisci index.html nel repository e, nel file sw.js, cambia il numero della riga VERSIONE
+ (per esempio agenda-ata-web-1.6). Gli utenti ricevono l'aggiornamento alla prima apertura con rete.
+
+COSA NON C'E' NELLA VERSIONE PER IPHONE (c'e' solo nell'app Android)
+ - Turni, appuntamenti con avviso, permesso donazione sangue, promemoria con rientro
+ - Notifiche a schermo spento (sull'iPhone avvisa solo con l'app aperta) e widget
+ - Blocco con Face ID, lettura automatica del PDF del portale, backup automatico
+ - Su iPhone i selettori dell'orario spesso non mostrano i secondi: "Timbra ora" li registra comunque
+
+CONSIGLI
+ - Crea ogni tanto un backup (Profilo > Copia backup) e incollalo in una nota: se togli l'icona dalla
+   Home o cancelli i dati del sito, i dati si perdono.
+ - L'app e' un diario personale: non sostituisce la timbratura ufficiale ne' i conteggi della scuola.
+
+(c) 2026 Papa Gianpaolo. Tutti i diritti riservati.
