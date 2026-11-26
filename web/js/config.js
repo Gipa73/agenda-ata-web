@@ -1,5 +1,5 @@
 // Impostazioni della versione web (le stesse dell'app Android).
-export const VERSIONE = '2.7';
+export const VERSIONE = '2.8';
 export const EMAIL = 'gipa73w@gmail.com';
 export const PAYPAL = 'https://paypal.me/gipa73';
 export const REVOLUT = 'https://revolut.me/gianpaolo_p73';

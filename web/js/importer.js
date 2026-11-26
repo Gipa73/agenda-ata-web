@@ -157,7 +157,7 @@ export function parsePortale(testo, attesi) {
 
 /** Testo del PDF riga per riga (le voci con la stessa quota verticale formano una riga). pdfjs = libreria pdf.js. */
 export async function testoDaPdf(pdfjs, data) {
-  const doc = await pdfjs.getDocument({ data: new Uint8Array(data), useSystemFonts: true, isEvalSupported: false }).promise;
+  const doc = await pdfjs.getDocument({ data: new Uint8Array(data.slice(0)), useSystemFonts: true, isEvalSupported: false }).promise;
   if (doc.numPages > LIMITE_PAGINE_PDF) return null;
   let testo = '';
   for (let n = 1; n <= doc.numPages; n++) {

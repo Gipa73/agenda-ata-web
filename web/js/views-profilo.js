@@ -6,6 +6,7 @@ import { N } from './nav.js';
 import * as C from './calc.js';
 import * as IM from './importer.js';
 import { cifra } from './crypto.js';
+import { caricaPdfjs } from './pdfjs.js';
 import { VERSIONE, EMAIL, COPYRIGHT, TESTO_PRIVACY, statAttive, STAT } from './config.js';
 
 const RUOLI = ['Collaboratore Scolastico', 'Assistente Amministrativo', 'Assistente Tecnico', 'Cuoco', 'Guardarobiere', 'Infermiere', 'Addetto Azienda Agraria', 'Altro'];
@@ -88,12 +89,6 @@ on('salvaProfilo', el => {
 
 // ---------------- importa e backup
 let pend = null;
-async function caricaPdfjs() {
-  if (window.pdfjsLib) return window.pdfjsLib;
-  await new Promise((ok, ko) => { const s = document.createElement('script'); s.src = 'vendor/pdf.min.js'; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
-  window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'vendor/pdf.worker.min.js';
-  return window.pdfjsLib;
-}
 export function importa() {
   return `
   <button class="link back" data-a="indietro">‹ Indietro</button><h1>📂 Importa e backup</h1>

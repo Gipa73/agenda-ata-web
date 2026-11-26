@@ -5,9 +5,9 @@ import { h, on, modal, toast, apri } from './ui.js';
 import { N } from './nav.js';
 
 export const NOVITA = [
+  'Turni dal PDF della scuola: scegli il file (anche scansionato) e i tuoi turni si caricano da soli',
   'Versione web completa: stesse causali, calcoli, contratti e punteggio dell’app Android',
-  'Turni, appuntamenti, attestati e importazione del PDF del portale presenze',
-  'Backup protetti da password, compatibili con l’app Android',
+  'Importazione del PDF del portale presenze, backup protetti da password compatibili con Android',
   'Giorni festivi in rosso indicati come festività; saldo aggiornato a fine giornata'
 ];
 export const FL = { pag: 0, rifiutato: false, guida: 0, riguarda: false };

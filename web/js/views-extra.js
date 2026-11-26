@@ -4,6 +4,12 @@ import * as TU from './turni.js';
 import * as AP from './appuntamenti.js';
 import * as AT from './attestati.js';
 import * as CT from './contratti.js';
+import * as TD from './turnidoc.js';
+import * as IM from './importer.js';
+import * as F from './festivi.js';
+import { caricaPdfjs } from './pdfjs.js';
+import { testoDaPdfScansionato } from './ocr.js';
+import { scarica } from './ui.js';
 import { h, on, opts, val, chk, modal, toast, conferma, apri } from './ui.js';
 import { N } from './nav.js';
 
@@ -14,6 +20,10 @@ const salvaPiano = p => setP({ turni: TU.serializza(p) });
 export function turni() {
   const pi = piano();
   return `${back}<h1>🗓️ Turni di lavoro</h1>
+  <div class="card"><h2>📄 Importa dal PDF della scuola</h2>
+    <p class="mu sm">Scegli il PDF “Turni collaboratori scolastici” del mese, anche se è una scansione: lo leggo qui sul telefono, lo trasformo in turni (CSV) e li carico. Nessun file lascia il dispositivo.</p>
+    <label>Il tuo cognome come compare nel documento</label><input id="t-cogn" value="${h(S.p.cognome || '')}" autocapitalize="words">
+    <input type="file" id="t-pdf" accept="application/pdf,.pdf" style="padding:8px"><div id="t-prog" class="mu sm"></div></div>
   <div class="card"><h2>Settimana tipo</h2><p class="mu sm">Il turno che si ripete ogni settimana. Dove scegli “Orario standard” vale l’orario ingresso/uscita del Profilo.</p>
     ${[1, 2, 3, 4, 5, 6].map(i => `<div class="row"><span>${GG[i - 1]}</span><select class="t-sett" data-g="${i}" style="width:62%">${opts([['', 'Orario standard'], ['-', 'Libero'], ...pi.modelli.map(x => [x.id, `${x.nome} (${x.sigla})`])], pi.settimana[i] ?? '')}</select></div>`).join('')}</div>
   <div class="card"><h2>Modelli di turno</h2><div class="lista">${pi.modelli.map(x => `<div class="click" data-a="modTurno" data-id="${h(x.id)}"><span><b>${h(x.sigla)}</b> · ${h(x.nome)}<div class="mu sm">${TU.testo(x)}</div></span><b>›</b></div>`).join('')}</div>
@@ -32,6 +42,7 @@ document.addEventListener('change', async e => {
     const pi = piano(), v = e.target.value; if (v === '') delete pi.settimana[e.target.dataset.g]; else pi.settimana[e.target.dataset.g] = v; salvaPiano(pi); toast('Salvato');
   }
   if (e.target.id === 't-file' && e.target.files[0]) { document.getElementById('t-csv').value = await e.target.files[0].text(); }
+  if (e.target.id === 't-pdf' && e.target.files[0]) { const f = e.target.files[0]; e.target.value = ''; importaPdfTurni(f); }
 });
 on('modTurno', el => {
   const pi = piano(), t = pi.modelli.find(x => x.id === el.dataset.id) || { id: '', nome: '', sigla: '', intervalli: '07:45-14:57' };
@@ -184,3 +195,46 @@ on('modCt', el => {
   };
   if (m.$('#k-del')) m.$('#k-del').onclick = async () => { if (c.file) { try { await allegatoElimina(c.file); } catch (e) { } } setP({ contratti: CT.serializza(l.filter(x => x.id !== c.id)) }); m.close(); N.render(); };
 });
+
+// ---- turni dal PDF della scuola: testo del PDF oppure, per le scansioni, OCR sul dispositivo
+async function importaPdfTurni(file) {
+  const prog = (t, f) => { const e = document.getElementById('t-prog'); if (e) e.textContent = f == null ? t : `${t} ${Math.round(f * 100)}%`; };
+  const cog = val('t-cogn').trim();
+  if (!cog) { toast('Scrivi il cognome come compare nel documento'); return; }
+  if (!S.p.cognome) setP({ cognome: cog });
+  try {
+    prog('Lettura del PDF…');
+    const buf = await file.arrayBuffer(), pdfjs = await caricaPdfjs();
+    let testo = await IM.testoDaPdf(pdfjs, buf);
+    if (testo === null) { prog('Il PDF ha troppe pagine.'); return; }
+    const festivo = d => !!F.nome(d);
+    let r = TD.parse(testo.split('\n'), cog, festivo);
+    if (!Object.keys(r.eccezioni).length) {                       // nessun testo nel PDF: è una scansione, serve l'OCR
+      prog('È una scansione: la leggo con il riconoscimento del testo (può richiedere un paio di minuti)…');
+      testo = await testoDaPdfScansionato(buf, prog, /piano seminterrato|assegnat[io] al piano/i);
+      if (testo === null) { prog('Il PDF ha troppe pagine.'); return; }
+      r = TD.parse(testo.split('\n'), cog, festivo);
+    }
+    prog('');
+    anteprimaTurni(r, cog);
+  } catch (e) { console.warn('turni pdf', e); prog('Non sono riuscito a leggere il PDF (' + ((e && e.message) || e) + '). Puoi sempre importare un file CSV (qui sotto).'); }
+}
+function anteprimaTurni(r, cog) {
+  const k = Object.keys(r.eccezioni), pi = piano(), nome = id => (pi.modelli.find(x => x.id === id) || TU.PREDEFINITI.find(x => x.id === id) || { nome: id }).nome;
+  if (!k.length) { toast(r.avvisi[0] || 'Non ho trovato turni nel documento'); return; }
+  const speciali = k.filter(x => r.eccezioni[x] !== 'std');
+  const m = modal(`<h2>Turni trovati per ${h(cog)}</h2>
+    <p class="mu">${k.length} giorni dal ${fmtData(parseIso(k[0]))} al ${fmtData(parseIso(k[k.length - 1]))}. Gli altri giorni restano come nella settimana tipo.</p>
+    <div class="lista">${speciali.map(x => `<div><span>${fmtData(parseIso(x))} · ${GG[(parseIso(x).getDay() + 6) % 7]}</span><b>${h(nome(r.eccezioni[x]))}</b></div>`).join('') || '<div class="mu">Tutti i giorni con orario standard.</div>'}</div>
+    ${r.avvisi.length ? `<p class="mu sm">${r.avvisi.slice(0, 8).map(a => '⚠️ ' + h(a)).join('<br>')}</p>` : ''}
+    <div class="sp"></div><button id="tp-ok">Importa i turni</button><div class="sp"></div>
+    <button class="sec" id="tp-csv">Salva come CSV</button><div class="sp"></div><button class="sec" id="tp-no">Annulla</button>`);
+  m.$('#tp-no').onclick = m.close;
+  m.$('#tp-csv').onclick = () => scarica(`turni_${cog.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.csv`, '\uFEFF' + TD.csv(r.eccezioni), 'text/csv');
+  m.$('#tp-ok').onclick = () => {
+    const p2 = piano();
+    for (const id of new Set(Object.values(r.eccezioni))) if (!p2.modelli.some(x => x.id === id)) { const pr = TU.PREDEFINITI.find(x => x.id === id); if (pr) p2.modelli.push({ ...pr }); }
+    p2.eccezioni = { ...p2.eccezioni, ...r.eccezioni };
+    salvaPiano(p2); m.close(); toast(`Importati ${k.length} giorni di turno`); N.render();
+  };
+}

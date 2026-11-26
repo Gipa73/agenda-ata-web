@@ -1,6 +1,6 @@
 {
-  "versionCode": 27,
-  "versionName": "2.7",
-  "note": "Novità: ringraziamenti ai colleghi del Majorana, statistiche anonime d'uso, giorni festivi come festività, avviso di nuova versione.",
+  "versionCode": 28,
+  "versionName": "2.8",
+  "note": "Novità: i turni si caricano da soli dal PDF della scuola (anche scansionato), ringraziamenti ai colleghi del Majorana, statistiche anonime d'uso, giorni festivi come festività.",
   "link": "https://github.com/Gipa73/Agenda-ATA-download/releases/latest/download/Agenda-ATA.apk"
 }
